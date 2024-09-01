@@ -1,18 +1,28 @@
 {
-    "manifest_version": 3,
-    "name": "GmailUI",
-    "version": "1.0",
-    "description": "MOre organized UI",
-    "action": {
-        "default_popup": "index.html"
-    },
-    "permissions": [
-        "scripting",
-        "tabs",
-        "activeTab"
-    ],
-    "host_permissions": [
-        "https://*/*",
-        "http://*/*"
+  "name": "Your Extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "identity",
+    "https://mail.google.com/"
+  ],
+  "oauth2": {
+    "client_id": "974603092208-bbq3isunpj4v7imv4b73mp6v1pqjug15.apps.googleusercontent.com.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/gmail.modify"
     ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }, 
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
 }

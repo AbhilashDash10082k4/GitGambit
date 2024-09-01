@@ -1,44 +1,22 @@
-/* eslint-disable prefer-const */
-// import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 
-function App() {
-  // const [count, setCount] = useState(0) 
-  const changeColorOnClick = async () => {
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id! },
-      func: () => {
-        document.body.style.backgroundColor = 'green';
-      }
-    });
-  }
+const App: React.FC = () => {
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log(tokenResponse);
+      // Use the token to interact with the Gmail API
+    },
+    onError: (error) => {
+      console.error('Login Failed:', error);
+    },
+  });
+
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => changeColorOnClick()}>
-         Change Color
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <GoogleOAuthProvider clientId="974603092208-bbq3isunpj4v7imv4b73mp6v1pqjug15.apps.googleusercontent.com.apps.googleusercontent.com">
+      <button onClick={() => login()}>Login with Google</button>
+    </GoogleOAuthProvider>
+  );
+};
 
-export default App
+export default App;
